@@ -109,6 +109,7 @@ __version__ = '2.2.4'
 ITEMREX = re.compile(r'^\s*([^@#\s]+)\s+([^@#\s]+)\s+([^@#\s]+)\s+([^@#\s]+)'
                      r'\s+([^@#\s]+)\s+([^\n]*)(\s+#\s*([^\n]*)|$)')
 SPECREX = re.compile(r'^\s*@(\w+)\s([^#\n]*)(\s+#\s*([^\n]*)|$)')
+COMMENTREX = re.compile(r'\s[#]{1}\s[^\n]+')
 DEVNULL = ">/dev/null 2>&1"
 
 WEEK_ENUM = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
@@ -561,7 +562,13 @@ class CronItem(object):
             self.set_command(result[0][-3])
 
         self.valid = self.setall(*result[0][:-3])
-        self.comment = result[0][-1]
+
+        tempCommand = COMMENTREX.findall(self.command)
+
+        if (len(tempCommand) > 0) and (len(tempCommand[0]) > 3):
+            self.comment = tempCommand[0][3:]
+        else:
+            self.comment = result[0][-1]
         self.enabled = self.enabled and self.valid
 
     def enable(self, enabled=True):
