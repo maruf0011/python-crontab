@@ -107,7 +107,7 @@ __pkgname__ = 'python-crontab'
 __version__ = '2.2.4'
 
 ITEMREX = re.compile(r'^\s*([^@#\s]+)\s+([^@#\s]+)\s+([^@#\s]+)\s+([^@#\s]+)'
-                     r'\s+([^@#\s]+)\s+([^#\n]*)(\s+#\s*([^\n]*)|$)')
+                     r'\s+([^@#\s]+)\s+([^\n]*)(\s+#\s*([^\n]*)|$)')
 SPECREX = re.compile(r'^\s*@(\w+)\s([^#\n]*)(\s+#\s*([^\n]*)|$)')
 DEVNULL = ">/dev/null 2>&1"
 
@@ -697,7 +697,7 @@ class CronItem(object):
     def description(self, **kw):
         """
         Returns a description of the crontab's schedule (if available)
-        
+
         **kw - Keyword arguments to pass to cron_descriptor (see docs)
         """
         try:
@@ -1298,5 +1298,3 @@ class OrderedVariableList(OrderedDict):
             ret.append("%s=%s" % (key, unicode(value)))
         ret.append('')
         return "\n".join(ret)
-
-
